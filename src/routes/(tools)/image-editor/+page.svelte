@@ -293,13 +293,6 @@
     </div>
     
     <div class="relative">
-      <!-- <button 
-        class="p-2 bg-gray-600 text-white rounded add-frames-btn" 
-        on:click={() => showFrames = !showFrames}
-      >
-        <img src="https://img.icons8.com/ios-filled/50/000000/frame.png" alt="Add Frames" class="w-6 h-6" /> 
-      </button> -->
-
       <button on:click={zoomInSticker} class="p-2 bg-gray-600 text-white rounded">
         <img src="https://img.icons8.com/ios-filled/50/000000/zoom-in.png" alt="Zoom In" class="w-6 h-6" />
       </button>
@@ -320,13 +313,6 @@
   </div>
 
   <div class="flex flex-row items-center space-x-2">
-    <!-- <button on:click={zoomInSticker} class="p-2 bg-gray-600 text-white rounded">
-      <img src="https://img.icons8.com/ios-filled/50/000000/zoom-in.png" alt="Zoom In" class="w-6 h-6" />
-    </button>
-    <button on:click={zoomOutSticker} class="p-2 bg-gray-600 text-white rounded">
-      <img src="https://img.icons8.com/ios-filled/50/000000/zoom-out.png" alt="Zoom Out" class="w-6 h-6" />
-    </button> -->
-
     <button 
         class="p-2 bg-gray-600 text-white rounded add-frames-btn" 
         on:click={() => showFrames = !showFrames}
@@ -344,3 +330,5 @@
 
   <canvas id="canvas" class="border border-gray-600 rounded mt-4"></canvas>
 </div>
+
+
