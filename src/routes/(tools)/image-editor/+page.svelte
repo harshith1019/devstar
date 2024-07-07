@@ -1,6 +1,7 @@
 <script>
 	import Crop from './_components/Crop.svelte';
 	import Filter from './_components/Filter.svelte';
+  import ReSize from './_components/ReSize.svelte';
     let currentFeature = '';
 	let image = "https://picsum.photos/200"
     function showFeature(feature) {
@@ -66,9 +67,11 @@
     </div>
     <div class="flex justify-center items-center flex-grow w-full bg-gray-200">
         {#if currentFeature === 'crop'}
-            <Crop image={image} />
+            <Crop image='https://imgs.search.brave.com/qqHu2CX5sFFm4iuv_n_q3xV6anUnyhiLBVz8-xXXk2U/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aXN0b2NrcGhvdG8u/Y29tL3Jlc291cmNl/cy9pbWFnZXMvRnJl/ZVBob3Rvcy9GcmVl/LVBob3RvLTc0MHg0/OTItMjA1ODI3NDIy/Mi5qcGc' />
 		{:else if currentFeature === 'filter'}
 			<Filter image={image} />
+		{:else if currentFeature === 'Resize'}
+			<ReSize image='https://imgs.search.brave.com/qqHu2CX5sFFm4iuv_n_q3xV6anUnyhiLBVz8-xXXk2U/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aXN0b2NrcGhvdG8u/Y29tL3Jlc291cmNl/cy9pbWFnZXMvRnJl/ZVBob3Rvcy9GcmVl/LVBob3RvLTc0MHg0/OTItMjA1ODI3NDIy/Mi5qcGc' />
         {/if}
 	</div>
 	<div class="flex lg:flex-col w-full p-4 border-gray-300 basis-1 md:flex-row md:justify-around">
@@ -77,7 +80,7 @@
 				<path d="M6.192 2.78c-.458-.677-.927-1.248-1.35-1.643a3 3 0 0 0-.71-.515c-.217-.104-.56-.205-.882-.02-.367.213-.427.63-.43.896-.003.304.064.664.173 1.044.196.687.556 1.528 1.035 2.402L.752 8.22c-.277.277-.269.656-.218.918.055.283.187.593.36.903.348.627.92 1.361 1.626 2.068.707.707 1.441 1.278 2.068 1.626.31.173.62.305.903.36.262.05.64.059.918-.218l5.615-5.615c.118.257.092.512.05.939-.03.292-.068.665-.073 1.176v.123h.003a1 1 0 0 0 1.993 0H14v-.057a1 1 0 0 0-.004-.117c-.055-1.25-.7-2.738-1.86-3.494a4 4 0 0 0-.211-.434c-.349-.626-.92-1.36-1.627-2.067S8.857 3.052 8.23 2.704c-.31-.172-.62-.304-.903-.36-.262-.05-.64-.058-.918.219zM4.16 1.867c.381.356.844.922 1.311 1.632l-.704.705c-.382-.727-.66-1.402-.813-1.938a3.3 3.3 0 0 1-.131-.673q.137.09.337.274m.394 3.965c.54.852 1.107 1.567 1.607 2.033a.5.5 0 1 0 .682-.732c-.453-.422-1.017-1.136-1.564-2.027l1.088-1.088q.081.181.183.365c.349.627.92 1.361 1.627 2.068.706.707 1.44 1.278 2.068 1.626q.183.103.365.183l-4.861 4.862-.068-.01c-.137-.027-.342-.104-.608-.252-.524-.292-1.186-.8-1.846-1.46s-1.168-1.32-1.46-1.846c-.147-.265-.225-.47-.251-.607l-.01-.068zm2.87-1.935a2.4 2.4 0 0 1-.241-.561c.135.033.324.11.562.241.524.292 1.186.8 1.846 1.46.45.45.83.901 1.118 1.31a3.5 3.5 0 0 0-1.066.091 11 11 0 0 1-.76-.694c-.66-.66-1.167-1.322-1.458-1.847z"/>
 			  </svg>Fill
 		</button>
-		<button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('finetune')}>
+		<button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('Resize')}>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-textarea-resize" viewBox="0 0 16 16">
 				<path d="M0 4.5A2.5 2.5 0 0 1 2.5 2h11A2.5 2.5 0 0 1 16 4.5v7a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 11.5zM2.5 3A1.5 1.5 0 0 0 1 4.5v7A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 13.5 3zm10.854 4.646a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708l3-3a.5.5 0 0 1 .708 0m0 2.5a.5.5 0 0 1 0 .708l-.5.5a.5.5 0 0 1-.708-.708l.5-.5a.5.5 0 0 1 .708 0"/>
 			  </svg>Resize
