@@ -512,9 +512,11 @@ function isPointInCircle(point, circle) {
       margin-left: auto;
       margin-right: auto;
       background-color: aliceblue;
+      margin-left: 150px;
     }
   
     .tools-container {
+    width: 250px;
               position: absolute; /* Position the container absolutely */
               top: 50%; /* Center the container vertically */
               right: 0; /* Align the container to the right side */
@@ -526,7 +528,7 @@ function isPointInCircle(point, circle) {
               margin: 5px 0;
               border: none;
               border-radius: 4px;
-              background-color: #ffffff; /* Button background color */
+              background-color: #d6bebe; /* Button background color */
               box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for buttons */
               font-size: 16px;
               color: #333; 
@@ -553,8 +555,9 @@ function isPointInCircle(point, circle) {
   
   
     .tool:hover {
-      background-color: #f0f0f0;
+      background-color: #1ae300;
       transform: scale(1.1);
+      
     }
   
     .tool-dropdown {
@@ -602,6 +605,9 @@ function isPointInCircle(point, circle) {
       display: block;
       margin-bottom: 5px;
     }
+    .zoom-controls:hover{
+      background-color: antiquewhite;
+    }
   
     .upload-container {
       position: absolute;
@@ -616,6 +622,7 @@ function isPointInCircle(point, circle) {
       display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically if needed */
+    margin-right: 250px;
     }
     button {
       padding: 10px 20px;
@@ -634,6 +641,8 @@ function isPointInCircle(point, circle) {
     button:hover {
       background-color: #f0f0f0;
       transform: scale(1.1);
+      background-color: aquamarine;
+
     }
   
     input[type="color"] {
@@ -662,7 +671,7 @@ function isPointInCircle(point, circle) {
   .toolbar select {
     border-radius: 4px;
 
-    width: 60px;
+    width: 70px;
     align-items: center;
     text-align: center;
     box-shadow: #333;
