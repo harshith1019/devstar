@@ -10,6 +10,11 @@
     let textColor = '#000000'; // Default text color
     let zoomLevel = 1.0; // Initial zoom level
     let shapeType = 'rectangle'; // Default shape type
+    
+  let textSize = 20; // Default text size
+  let textFont = 'Arial'; // Default text font
+  let canvas;
+  let ctx;
   
     const toolConfigs = {
       drawLow: {
@@ -67,18 +72,19 @@
           });
           break;
         case 'text':
-          const text = prompt('Enter text:');
-          if (text) {
-            annotations.push({
-              type: 'text',
-              text,
-              x,
-              y,
-              color: textColor,
-              size: toolConfigs.text.size,
-              fontFamily: toolConfigs.text.fontFamily
-            });
-          }
+        const text = prompt('Enter text:');
+        if (text) {
+          annotations.push({
+            type: 'text',
+            text,
+            x,
+            y,
+            color: textColor,
+            size: textSize,
+            font: textFont
+          });
+        }
+        break;
           break;
         case 'shape':
           // Wait for the second click to define the end coordinates for shapes
@@ -120,19 +126,73 @@
     }
   
     function eraseAnnotation(x, y) {
-      annotations = annotations.filter(annotation => {
-        if (annotation.type === 'draw'||annotation.type === 'text' || annotation.type === 'shape' || annotation.type === 'highlight') {
-          return !annotation.points.some(point => isPointInRange(point, { x, y }, toolConfigs.erase.size));
-        } else if (annotation.type === 'text' || annotation.type === 'shape' || annotation.type === 'highlight') {
-          return !isPointInRange({ x: annotation.x, y: annotation.y }, { x, y }, toolConfigs.erase.size);
+  annotations = annotations.filter(annotation => {
+    switch (annotation.type) {
+      case 'draw':
+        // Check if any points are within the erase range
+        return !annotation.points.some(point => isPointInRange(point, { x, y }, toolConfigs.erase.size));
+      case 'text':
+        // Check if the text position is within the erase range
+        return !isPointInRange({ x: annotation.x, y: annotation.y }, { x, y }, toolConfigs.erase.size);
+      case 'shape':
+        // Check if the erase point falls within the bounds of the shape
+        switch (annotation.shapeType) {
+          case 'rectangle':
+            return !isPointInRectangle({ x, y }, annotation);
+          case 'circle':
+            return !isPointInCircle({ x, y }, annotation);
+          case 'line':
+            return !isPointOnLine({ x, y }, annotation);
+          case 'arrow':
+            // Add arrow logic if needed
+            break;
+          default:
+            break;
         }
-        return true;
-      });
+        break;
+      case 'highlight':
+        // Check if the erase point is within the highlighted area
+        return !isPointInHighlight({ x, y }, annotation);
+      default:
+        return true; // Keep other types of annotations
     }
-  
-    function isPointInRange(point1, point2, range) {
-      return Math.abs(point1.x - point2.x) < range && Math.abs(point1.y - point2.y) < range;
-    }
+  });
+}
+
+function isPointInHighlight(point, highlight) {
+  return (
+    point.x >= highlight.x &&
+    point.x <= highlight.x + highlight.width &&
+    point.y >= highlight.y &&
+    point.y <= highlight.y + highlight.height
+  );
+}
+function isPointOnLine(point, line) {
+  // Check if the point is close to the line
+  const distance = Math.abs(
+    (line.endY - line.startY) * point.x - (line.endX - line.startX) * point.y + line.endX * line.startY - line.endY * line.startX
+  ) / Math.sqrt(Math.pow(line.endY - line.startY, 2) + Math.pow(line.endX - line.startX, 2));
+  return distance <= toolConfigs.erase.size;
+}
+function isPointInRectangle(point, rectangle) {
+  return (
+    point.x >= rectangle.startX &&
+    point.x <= rectangle.endX &&
+    point.y >= rectangle.startY &&
+    point.y <= rectangle.endY
+  );
+}
+
+function isPointInCircle(point, circle) {
+  const radius = Math.sqrt(Math.pow(circle.endX - circle.startX, 2) + Math.pow(circle.endY - circle.startY, 2));
+  return Math.pow(point.x - circle.startX, 2) + Math.pow(point.y - circle.startY, 2) <= Math.pow(radius, 2);
+}
+
+
+  function isPointInRange(point1, point2, range) {
+    return Math.abs(point1.x - point2.x) < range && Math.abs(point1.y - point2.y) < range;
+  }
+
   
     function clearAnnotations() {
       annotations = [];
@@ -298,40 +358,91 @@
   }
   
   
-      function drawText(annotation) {
-        ctx.font = `${annotation.size * zoomLevel}px ${annotation.fontFamily}`;
-        ctx.fillStyle = annotation.color;
-        ctx.fillText(annotation.text, annotation.x * zoomLevel, annotation.y * zoomLevel);
-      }
-  
-      function drawShape(annotation) {
-    ctx.strokeStyle = annotation.color;
-    ctx.lineWidth = 2;
-    switch (annotation.shapeType) {
-      case 'rectangle':
-        ctx.strokeRect(annotation.startX * zoomLevel, annotation.startY * zoomLevel, (annotation.endX - annotation.startX) * zoomLevel, (annotation.endY - annotation.startY) * zoomLevel);
-        break;
-      case 'circle':
-      const radius = Math.sqrt(Math.pow(annotation.endX - annotation.startX, 2) + Math.pow(annotation.endY - annotation.startY, 2));
-            ctx.beginPath();
-            ctx.arc(annotation.startX * zoomLevel, annotation.startY * zoomLevel, radius * zoomLevel, 0, 2 * Math.PI);
-            ctx.stroke();
-            break;
-        // Draw circle
-      case 'line':
-        // Draw line
-        ctx.beginPath();
-            ctx.moveTo(annotation.startX * zoomLevel, annotation.startY * zoomLevel);
-            ctx.lineTo(annotation.endX * zoomLevel, annotation.endY * zoomLevel);
-            ctx.stroke();
-            break;
-      case 'arrow':
-        // Draw arrow
-        break;
-      default:
-        break;
+  function drawText(annotation) {
+      ctx.font = `${annotation.size * zoomLevel}px ${annotation.font}`;
+      ctx.fillStyle = annotation.color;
+      ctx.fillText(annotation.text, annotation.x * zoomLevel, annotation.y * zoomLevel);
     }
+  
+    function drawShape(annotation) {
+  ctx.strokeStyle = annotation.color;
+  ctx.lineWidth = 2;
+  switch (annotation.shapeType) {
+    case 'rectangle':
+      ctx.strokeRect(
+        annotation.startX * zoomLevel,
+        annotation.startY * zoomLevel,
+        (annotation.endX - annotation.startX) * zoomLevel,
+        (annotation.endY - annotation.startY) * zoomLevel
+      );
+      break;
+    case 'circle':
+      const radius = Math.sqrt(
+        Math.pow(annotation.endX - annotation.startX, 2) + Math.pow(annotation.endY - annotation.startY, 2)
+      );
+      ctx.beginPath();
+      ctx.arc(annotation.startX * zoomLevel, annotation.startY * zoomLevel, radius * zoomLevel, 0, 2 * Math.PI);
+      ctx.stroke();
+      break;
+    case 'line':
+      ctx.beginPath();
+      ctx.moveTo(annotation.startX * zoomLevel, annotation.startY * zoomLevel);
+      ctx.lineTo(annotation.endX * zoomLevel, annotation.endY * zoomLevel);
+      ctx.stroke();
+
+      // Calculate angle of the line
+      const angle = Math.atan2(annotation.endY - annotation.startY, annotation.endX - annotation.startX);
+
+      // Arrowhead length
+      const arrowLength = 10;
+
+      // Draw arrowhead
+      ctx.save();
+      ctx.translate(annotation.endX * zoomLevel, annotation.endY * zoomLevel);
+      ctx.rotate(angle);
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-arrowLength, arrowLength / 2);
+      ctx.lineTo(-arrowLength, -arrowLength / 2);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.restore();
+      break;
+    case 'arrow':
+      // Draw arrow with arrowhead
+      ctx.beginPath();
+      ctx.moveTo(annotation.startX * zoomLevel, annotation.startY * zoomLevel);
+      ctx.lineTo(annotation.endX * zoomLevel, annotation.endY * zoomLevel);
+      ctx.stroke();
+
+      // Calculate angle of the arrow
+      const arrowAngle = Math.atan2(annotation.endY - annotation.startY, annotation.endX - annotation.startX);
+
+      // Arrowhead length and width
+      const arrowheadLength = 10;
+      const arrowheadWidth = 8;
+
+      // Draw arrowhead
+      ctx.save();
+      ctx.translate(annotation.endX * zoomLevel, annotation.endY * zoomLevel);
+      ctx.rotate(arrowAngle);
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-arrowheadLength, arrowheadWidth / 2);
+      ctx.lineTo(-arrowheadLength, -arrowheadWidth / 2);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.restore();
+      break;
+    default:
+      break;
   }
+}
+
   
       function drawHighlight(annotation) {
         ctx.fillStyle = annotation.color;
@@ -386,6 +497,7 @@
       return () => {
         canvas.removeEventListener('mousedown', addAnnotation);
         canvas.removeEventListener('mouseup', finishShape);
+        canvas.addEventListener('mousedown',drawText)
       };
     });
   </script>
@@ -531,7 +643,39 @@
       margin-left: 5px;
       vertical-align: middle;
     }
-  
+    .toolbar {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .toolbar select,
+  .toolbar input[type="number"],
+  .toolbar input[type="color"] {
+    padding: 5px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .toolbar select {
+    border-radius: 4px;
+
+    width: 60px;
+    align-items: center;
+    text-align: center;
+    box-shadow: #333;
+    margin-left: 3px;
+
+  }
+
+  .toolbar input[type="number"] {
+    width: 40px;
+    align-items: center;
+    text-align: center;
+    box-shadow: #333;
+  }
   </style>
   
   <div class="tools-container">
@@ -554,12 +698,46 @@
   
     <!-- Other tools -->
     <span class="tool" on:click={() => selectTool('text')}>{toolConfigs.text.icon} Text 
-      {#if activeTool === 'text'}
-      <div class="color-picker">
-        <label for="text-color"></label>
-        <input type="color" id="text-color" bind:value={textColor}>
-      </div>
-    {/if}
+      <div class="toolbar">
+  <select class="font" bind:value={textFont} title="Font">
+    <option value="Arial">Arial</option>
+    <option value="Verdana">Verdana</option>
+    <option value="Times New Roman">Times New Roman</option>
+    <option value="Courier New">Courier New</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Palatino Linotype">Palatino Linotype</option>
+    <option value="Book Antiqua">Book Antiqua</option>
+    <option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
+    <option value="Tahoma">Tahoma</option>
+    <option value="Geneva">Geneva</option>
+    <option value="Helvetica">Helvetica</option>
+    <option value="Trebuchet MS">Trebuchet MS</option>
+    <option value="Arial Black">Arial Black</option>
+    <option value="Impact">Impact</option>
+    <option value="Comic Sans MS">Comic Sans MS</option>
+    <option value="Lucida Console">Lucida Console</option>
+    <option value="Monaco">Monaco</option>
+    <option value="Courier">Courier</option>
+    <option value="Copperplate">Copperplate</option>
+    <option value="Brush Script MT">Brush Script MT</option>
+    <option value="Arial Narrow">Arial Narrow</option>
+    <option value="Gill Sans">Gill Sans</option>
+    <option value="Verdana Pro">Verdana Pro</option>
+    <option value="Futura">Futura</option>
+    <option value="Calibri">Calibri</option>
+    <option value="Segoe UI">Segoe UI</option>
+    <option value="Franklin Gothic Medium">Franklin Gothic Medium</option>
+    <option value="Rockwell">Rockwell</option>
+    <option value="Palatino">Palatino</option>
+    <option value="Baskerville">Baskerville</option>
+    <option value="Century Gothic">Century Gothic</option>
+  </select>
+  
+  <input class="size" type="number" bind:value={textSize} min="10" max="100" title="Text Size" />
+
+  <input type="color" bind:value={textColor} title="Text Color" />
+</div>
+
     </span>
     
     <div class="tool-dropdown">
