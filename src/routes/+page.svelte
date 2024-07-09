@@ -33,9 +33,16 @@
 					<Card href={tool.link}>	
 						<!-- <i class="icon-{tool.icon} mb-2 text-gray-500 dark:text-gray-400 text-4xl" />	 -->
 						<h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">	
-							{tool.name}	
+							{tool.name}	Image Editor
 						</h5>
-						<p>{tool.description.length > 80 ? tool.description.substring(0, 80) + '...' : tool.description}</p>
+						<p>{tool.description.length > 80 ? tool.description.substring(0, 80) + '...' : tool.description}a tool that enables users to modify and enhance digital images through various editing features and filters.
+
+
+
+
+
+
+						</p>
 					</Card>	
 				{/each}	
 			</div>	

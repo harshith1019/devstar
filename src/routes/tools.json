@@ -162,6 +162,31 @@
         ]
     },
     "image-editor": {
+
+        "name": "",
+        "link": "/image-editor",
+        "description": "",
+        "contributors": [
+            {
+                "name": "",
+                "githubId": ""
+            },
+            {
+                "name": "",
+                "githubId": ""
+            },
+            {
+                "name": "",
+                "githubId": ""
+            },
+            {
+                "name": "",
+                "githubId": ""
+            },
+            {
+                "name": "",
+                "githubId": ""
+
         "name": "Image Editor",
         "link": "/image-editor",
         "description": "The Image Editor tool offers users an efficient way to add stickers and frames to any image they choose. Uers can add or delete multiple stickers and also can maximize or minimize the stickers individually after putting. Users can only select one frame at a time, frames are also resizable.",
@@ -169,6 +194,7 @@
             {
                 "name": "Ajayraj Rathod",
                 "githubId": "https://github.com/ajayrajrthd"
+
             }
         ]
     },
