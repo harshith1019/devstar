@@ -4,15 +4,23 @@
   let canvas, ctx;
   let image = new Image();
   let stickers = [
-    "https://twemoji.maxcdn.com/v/latest/72x72/1f600.png", // Grinning Face
-    "https://twemoji.maxcdn.com/v/latest/72x72/1f923.png", // Rolling on the Floor Laughing
-    "https://twemoji.maxcdn.com/v/latest/72x72/1f602.png", // Face with Tears of Joy
-    "https://twemoji.maxcdn.com/v/latest/72x72/1f609.png", // Winking Face
-    "https://twemoji.maxcdn.com/v/latest/72x72/1f44d.png",  // Thumbs Up
-    "https://twemoji.maxcdn.com/v/latest/72x72/1f618.png", // Face Blowing a Kiss
-    "https://twemoji.maxcdn.com/v/latest/72x72/1f61c.png", // Winking Face with Tongue
-    "https://twemoji.maxcdn.com/v/latest/72x72/1f60d.png", // Smiling Face with Heart-Eyes
-    "https://twemoji.maxcdn.com/v/latest/72x72/1f929.png", // Star-Struck
+    "https://cdn-icons-png.flaticon.com/256/8445/8445916.png",
+    "https://cdn-icons-png.flaticon.com/256/9803/9803989.png",
+    "https://cdn-icons-png.flaticon.com/256/8445/8445784.png",
+    "https://cdn-icons-png.flaticon.com/256/6595/6595922.png",
+    "https://cdn-icons-png.flaticon.com/256/8073/8073608.png",
+    "https://cdn-icons-png.flaticon.com/256/8445/8445936.png",
+    "https://cdn-icons-png.flaticon.com/256/6467/6467782.png",
+    "https://cdn-icons-png.flaticon.com/256/8445/8445773.png",
+    "https://cdn-icons-png.flaticon.com/256/8445/8445825.png",
+    "https://cdn-icons-png.flaticon.com/256/9804/9804020.png",
+    "https://cdn-icons-png.flaticon.com/256/5115/5115230.png",
+    "https://cdn-icons-png.flaticon.com/256/5020/5020707.png",
+    "https://cdn-icons-png.flaticon.com/128/4160/4160766.png",
+    "https://cdn-icons-png.flaticon.com/256/5020/5020660.png",
+    "https://cdn-icons-png.flaticon.com/256/5020/5020462.png",
+    "https://cdn-icons-png.flaticon.com/128/4160/4160718.png",
+    "https://cdn-icons-png.flaticon.com/128/4160/4160740.png"
   ];
 
   let frames = [
