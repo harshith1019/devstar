@@ -117,9 +117,9 @@
             }
         ]
     },
-    "gradient-generator": {
+    "Gradient-generator": {
         "name": "Gradient Generator",
-        "link": "/gradient-generator",
+        "link": "/Gradient-generator",
         "description": "The Gradient Generator is a tool for Developers which allows you to create Gradient between 2 Colors and Copy its CSS Output.",
         "contributors": [
             {
@@ -158,6 +158,17 @@
             {
                 "name": "Hannan Satopay",
                 "githubId": "hannansatopay"
+            }
+        ]
+    },
+    "image-editor": {
+        "name": "Image Editor",
+        "link": "/image-editor",
+        "description": "The Image Editor tool offers users an efficient way to add stickers and frames to any image they choose. Uers can add or delete multiple stickers and also can maximize or minimize the stickers individually after putting. Users can only select one frame at a time, frames are also resizable.",
+        "contributors": [
+            {
+                "name": "Ajayraj Rathod",
+                "githubId": "https://github.com/ajayrajrthd"
             }
         ]
     },
