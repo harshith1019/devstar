@@ -1,543 +1,107 @@
 <script>
-
+	import Crop from './_components/Crop.svelte';
+	import Filter from './_components/Filter.svelte';
+	import ImagePreview from './_components/ImagePreview.svelte';
+    let currentFeature = '';
+	let imageUrl = '';
+	let image = "https://picsum.photos/200"
+    function showFeature(feature) {
+		currentFeature = feature;
+    }
+	function uploadImage(){
+		imageUrl = '';
+	}
 </script>
 
-<div class="card gap-16 items-center mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 overflow-hidden rounded-lg">
+<div class="container flex justify-between">
+	<button class="flex justify-evenly items-center bg-gray-400 dark:bg-white p-2 my-3 rounded-xl">
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 font-bold">
+		<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+	  </svg><span class="font-semibold">Customize</span>
+	</button>
+	<button on:click={() => showFeature('choose-random')} class="flex justify-evenly items-center bg-gray-400 dark:bg-white p-2 my-3 rounded-xl">
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+		  </svg><span class="font-semibold">Choose A Random Image</span>
+	</button>
+</div>
+
+<div class="card gap-16 items-center mx-auto max-w-screen-xl lg:flex overflow-hidden rounded-lg">
 	<!-- Add tool here -->
-</div>
-
-
-
-<form id="post-form" class="container1 mx-auto p-5 text-white" method="POST" enctype="multipart/form-data">
-    <label for="image" class="sr-only bg-green text-white">Upload an image</label>
-    <input type="file" accept="image/png, image/jpg, image/jpeg" name="image" id="image" required>
-
-</form>
-<div id="main-container">
-<div  class="container text-white">
-    <canvas class="canvas-container text-white"></canvas>
-</div>
-<div class="button-container">
-<button id="filter-button" class=" btn text-white bg-purple-700 hover:bg-yellow-800 font-medium rounded-lg text-sm px-5 py-2.5">Filters</button>
-
-    <button id="share-button" type="submit" class=" btn text-white bg-green-700 hover:bg-purple-800 font-medium rounded-lg text-sm px-5 py-2.5">Save</button>
-
-<button id="discard-button" class=" btn text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5">Discard</button>
-<button class="ml-8 btn"><a id="download" download>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20px" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-    </svg>
-    <span>Download</span>
-</a></button>
-
-</div>
-
-</div>
-<div id="filter-panel" class="filter-panel">
-    <button id="close-filter-panel" class="close-filter-panel">Close</button>
-    <button id="back-to-categories" class="back-button">Back</button>
-    <div id="filters-container">
+     
+	<div class="flex lg:flex-col w-full p-4 border-b border-gray-300 basis-1 md:flex-row md:justify-around">
+        <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('crop')}>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-crop" viewBox="0 0 16 16">
+				<path d="M3.5.5A.5.5 0 0 1 4 1v13h13a.5.5 0 0 1 0 1h-2v2a.5.5 0 0 1-1 0v-2H3.5a.5.5 0 0 1-.5-.5V4H1a.5.5 0 0 1 0-1h2V1a.5.5 0 0 1 .5-.5m2.5 3a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4H6.5a.5.5 0 0 1-.5-.5"/>
+			  </svg>Crop
+		</button>
+		<button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('finetune')}>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 9.75V10.5" />
+			  </svg>Finetune
+		</button>
+        <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('filter')}>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+			  </svg>Filter
+		</button>
+        <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('annotate')}>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+				<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+				<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+			  </svg>Annotate
+		</button>
+        <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('stickers')}>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sticky-fill" viewBox="0 0 16 16">
+				<path d="M2.5 1A1.5 1.5 0 0 0 1 2.5v11A1.5 1.5 0 0 0 2.5 15h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 15 8.586V2.5A1.5 1.5 0 0 0 13.5 1zm6 8.5a1 1 0 0 1 1-1h4.396a.25.25 0 0 1 .177.427l-5.146 5.146a.25.25 0 0 1-.427-.177z"/>
+			  </svg>Stickers
+		</button>
+    </div>
+    <div class="flex justify-center items-center flex-grow w-full bg-gray-200 rounded-lg">
+        {#if currentFeature === 'crop'}
+            <Crop image={image} />
+		{:else if currentFeature === 'filter'}
+			<Filter image={image} />
+		{:else if currentFeature === 'choose-random'}
+			<div>
+				"gvg"
+			</div>
+		{:else if currentFeature === 'upload-pic'}
+			<ImagePreview imageUrl=''/>
+		{:else}
+			<ImagePreview bind:imageUrl={imageUrl} />
+        {/if}
+	</div>
+	<div class="flex lg:flex-col w-full p-4 border-gray-300 basis-1 md:flex-row md:justify-around">
+        <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('fill')}>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paint-bucket" viewBox="0 0 16 16">
+				<path d="M6.192 2.78c-.458-.677-.927-1.248-1.35-1.643a3 3 0 0 0-.71-.515c-.217-.104-.56-.205-.882-.02-.367.213-.427.63-.43.896-.003.304.064.664.173 1.044.196.687.556 1.528 1.035 2.402L.752 8.22c-.277.277-.269.656-.218.918.055.283.187.593.36.903.348.627.92 1.361 1.626 2.068.707.707 1.441 1.278 2.068 1.626.31.173.62.305.903.36.262.05.64.059.918-.218l5.615-5.615c.118.257.092.512.05.939-.03.292-.068.665-.073 1.176v.123h.003a1 1 0 0 0 1.993 0H14v-.057a1 1 0 0 0-.004-.117c-.055-1.25-.7-2.738-1.86-3.494a4 4 0 0 0-.211-.434c-.349-.626-.92-1.36-1.627-2.067S8.857 3.052 8.23 2.704c-.31-.172-.62-.304-.903-.36-.262-.05-.64-.058-.918.219zM4.16 1.867c.381.356.844.922 1.311 1.632l-.704.705c-.382-.727-.66-1.402-.813-1.938a3.3 3.3 0 0 1-.131-.673q.137.09.337.274m.394 3.965c.54.852 1.107 1.567 1.607 2.033a.5.5 0 1 0 .682-.732c-.453-.422-1.017-1.136-1.564-2.027l1.088-1.088q.081.181.183.365c.349.627.92 1.361 1.627 2.068.706.707 1.44 1.278 2.068 1.626q.183.103.365.183l-4.861 4.862-.068-.01c-.137-.027-.342-.104-.608-.252-.524-.292-1.186-.8-1.846-1.46s-1.168-1.32-1.46-1.846c-.147-.265-.225-.47-.251-.607l-.01-.068zm2.87-1.935a2.4 2.4 0 0 1-.241-.561c.135.033.324.11.562.241.524.292 1.186.8 1.846 1.46.45.45.83.901 1.118 1.31a3.5 3.5 0 0 0-1.066.091 11 11 0 0 1-.76-.694c-.66-.66-1.167-1.322-1.458-1.847z"/>
+			  </svg>Fill
+		</button>
+		<button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('resize')}>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-textarea-resize" viewBox="0 0 16 16">
+				<path d="M0 4.5A2.5 2.5 0 0 1 2.5 2h11A2.5 2.5 0 0 1 16 4.5v7a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 11.5zM2.5 3A1.5 1.5 0 0 0 1 4.5v7A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 13.5 3zm10.854 4.646a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708l3-3a.5.5 0 0 1 .708 0m0 2.5a.5.5 0 0 1 0 .708l-.5.5a.5.5 0 0 1-.708-.708l.5-.5a.5.5 0 0 1 .708 0"/>
+			  </svg>Resize
+		</button>
+        <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('redact')}>
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-square" viewBox="0 0 16 16">
+				<path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+				<path d="M6 11.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+			  </svg>Redact
+		</button>
+        <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('frame')}>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Zm.75-12h9v9h-9v-9Z" />
+			  </svg>Frame
+		</button>
+		<button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => {uploadImage(), showFeature('upload-pic')}}>
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
+			  </svg>Upload
+		</button>
     </div>
 </div>
-<div id="effect-panel" class="filter-panel">
-    <button id="close-effect-panel" class="close-filter-panel">Close</button>
-    <button id="back-to-categories-effect" class="back-button">Back</button>
-    <div id="effects-container">
-        <!-- Effect categories will be appended here -->
-    </div>
-</div>
 
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close1">&times;</span>
-        <p>Your changes have been saved successfully!</p>
-    </div>
-</div>
-
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close1">&times;</span>
-        <p>Your changes have been saved successfully!</p>
-    </div>
-</div>
-
-<main>
 <style>
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
-    padding-top: 60px;
-}
 
-/* Modal Content */
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; 
-}
-
-/* The Close Button */
-.close1 {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close1:hover,
-.close1:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.button-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-.button {
-  transition: background-color 0.3s ease;
-}
-
-.button svg {
-  margin-right: 5px;
-}
-
-.ml-8 {
-  margin-left: 20px;
-}
-#download, 
-button,  
-input::-webkit-file-upload-button {
-    font-weight: 600;
-    font-size: 1rem; 
-    font-family: inherit;  
-    border: none; 
-    text-decoration: none;
-    line-height: 1; 
-    text-align: center;
-    cursor: pointer; 
-    transition: all 0.2s linear; 
-    color: #FFF;
-    box-shadow: var(--shadow);
-}
-#reset,
-#download, 
-input::-webkit-file-upload-button {
-    padding: 1em 1.5em;
-    border: 1px solid #FFF; 
-    background-color: var(--neutral); 
-}
-#download {
-display: flex; 
-justify-content: center;
-align-items: center;
-gap: 0.5rem;
-}
- #reset:hover,  
-#download:hover, 
-input::-webkit-file-upload-button:hover {
-    border: 1px solid var(--orange); 
-    background-color: var(--orange);
-}
-.canvas-container {
-    width: 100%;
-    max-width: 500px; /* Adjust as needed */
-    border: 1px solid #ddd;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-}
-canvas {
-    width: 100%;
-    height: auto;
-}
-.filter-panel {
-    position: fixed;
-    top: 0;
-    left: -300px; /* Adjusted to slide from left */
-    width: 300px;
-    height: 100%;
-    background-color: #1e2839; /* Dark blue background */
-    border-right: 1px solid #ddd;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: left 0.3s ease-in-out;
-    overflow-y: auto;
-    z-index: 1000;
-    padding: 20px;
-    color: #fff; /* White text */
-}
-.filter-panel.open {
-    left: 0;
-}
-.close-filter-panel,
-.back-button,
-.filter-category,
-.filter-preview {
-    color: #fff; /* White text */
-    cursor: pointer;
-}
-.close-filter-panel:hover,
-    .back-button:hover,
-    .filter-category:hover,
-    .filter-preview:hover {
-        color: #ccc; /* Light gray text on hover */
-    }
-    .close-filter-panel {
-        display: block;
-        margin-bottom: 20px;
-    }
-    .back-button {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        cursor: pointer;
-        color: #007bff; /* Bootstrap's primary color */
-    }
-    .filter-category {
-        margin-bottom: 10px;
-        cursor: pointer;
-    }
-    .filter-category:hover {
-        background-color: #2980b9; /* Darker blue on hover */
-    }
-    .filter-category.selected {
-        font-weight: bold;
-    }
-    .filter-preview {
-        margin-bottom: 20px;
-        cursor: pointer;
-    }
-    .filter-preview:hover {
-        background-color: #27ae60; /* Darker green on hover */
-    }
-    .filter-preview img {
-        width: 100%;
-        height: auto;
-    }
-    .filter-preview.selected {
-        border: 2px solid #000;
-    }
-    .back-button:hover {
-        background-color: #c0392b; /* Darker red on hover */
-    }
-    #main-container.adjusted {
-        margin-left: 300px; /* Adjust according to the filter panel width */
-        transition: margin-left 0.3s ease-in-out;
-    }
 </style>
-<script>
-    const canvas = document.querySelector('canvas');
-    const context = canvas.getContext('2d');
-    const input = document.getElementById('image');
-    const filterButton = document.getElementById('filter-button');
-    const discardButton = document.getElementById('discard-button');
-    const filterPanel = document.getElementById('filter-panel');
-    const closeFilterPanel = document.getElementById('close-filter-panel');
-    const backToCategoriesButton = document.getElementById('back-to-categories');
-    const filtersContainer = document.getElementById('filters-container');
-    const mainContainer = document.getElementById('main-container');
-let imageWidth = null;
-    let imageHeight = null;
-    let originalData = null;
-    const image = new Image();
-image.addEventListener('load', () => {
-        imageWidth = image.width;
-        imageHeight = image.height;
-        canvas.width = imageWidth;
-        canvas.height = imageHeight;
-        context.drawImage(image, 0, 0);
-        createFilterCategories();
-    });
-const reader = new FileReader();
-    reader.addEventListener('load', () => {
-        image.src = reader.result;
-        originalData = reader.result;
-    });
-input.addEventListener('change', () => {
-    reader.readAsDataURL(input.files[0]);
-});
-filterButton.addEventListener('click', () => {
-    filterPanel.classList.add('open');
-    mainContainer.classList.add('adjusted');
-});
-closeFilterPanel.addEventListener('click', () => {
-    filterPanel.classList.remove('open');
-    mainContainer.classList.remove('adjusted');
-});
-discardButton.addEventListener('click', () => {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image, 0, 0);
-    context.filter = 'none'; // Reset any applied filter
-});
-backToCategoriesButton.addEventListener('click', () => {
-    if (filtersContainer.dataset.view === 'filters') {
-        const currentCategory = filtersContainer.dataset.category;
-        showSubcategories(currentCategory, filterCategories.find(cat => cat.name === currentCategory).filters);
-        filtersContainer.dataset.view = 'subcategories'; // Set the data attribute to 'subcategories'
-    } else if (filtersContainer.dataset.view === 'subcategories') {
-        createFilterCategories();
-        filtersContainer.dataset.view = 'categories'; // Set the data attribute to 'categories'
-    }
-});
-const filterCategories = [
-    {
-        name: 'B&W',
-        filters: [
-            { name: 'Agnes', filter: 'grayscale(100%)' },
-            { name: 'Conny', filter: 'grayscale(100%) contrast(1.3) brightness(1.1)' },
-            { name: 'Gorden', filter: 'grayscale(100%) brightness(1.25) contrast(1.3)' },
-            { name: 'Harrison', filter: 'grayscale(100%) contrast(1.6)' },
-                { name: 'Henry', filter: 'grayscale(100%) brightness(1.6) contrast(1.4)' },
-                { name: 'Logan', filter: 'grayscale(100%) brightness(1.75) contrast(1.3)' },
-                { name: 'Olay', filter: 'grayscale(100%) contrast(1.4) brightness(1.2)' },
-                { name: 'Porter', filter: 'grayscale(100%) brightness(1.35) contrast(1.5)' },
-                { name: 'Sampi', filter: 'grayscale(100%) brightness(1.7) contrast(1.5)' },
-                { name: 'Tom', filter: 'grayscale(100%) contrast(1.2) brightness(1.1)' },
-                { name: 'Vinny', filter: 'grayscale(100%) brightness(1.15) contrast(1.2)' }
-            ]
-        },
-        {
-            name: 'Friends',
-            filters: [
-                { name: 'Aladin', filter: 'sepia(1)' },
-                { name: 'Alex', filter: 'sepia(1) contrast(1.2)' },
-                { name: 'Amber', filter: 'sepia(1)' },
-                { name: 'Anne', filter: 'sepia(1) contrast(1.2)' },
-                { name: 'Antonio', filter: 'sepia(1) brightness(1.2) contrast(1.2)' },
-                { name: 'Bob', filter: 'sepia(1) brightness(1.2) contrast(1.2)' },
-                { name: 'Greg', filter: 'sepia(1)' },
-                { name: 'Hagrid', filter: 'sepia(1) contrast(1.3)' },
-                { name: 'Harry', filter: 'sepia(1) brightness(1.2)' },
-                { name: 'Ivan', filter: 'sepia(1) contrast(1.2)' },
-                { name: 'Jean', filter: 'sepia(1) brightness(1.1)' },
-                { name: 'Josh', filter: 'sepia(1) contrast(1.3)' },
-                { name: 'Karen', filter: 'sepia(1) brightness(1.1)' },
-                { name: 'Lucas', filter: 'sepia(1) contrast(1.4)' },
-                { name: 'Melissa', filter: 'sepia(1) contrast(1.2) brightness(1.1)' },
-                { name: 'Peter', filter: 'sepia(1)' },
-                { name: 'Saloman', filter: 'sepia(1) brightness(1.1)' },
-                { name: 'Sara', filter: 'sepia(1) contrast(1.2)' },
-                { name: 'Sophia', filter: 'sepia(1) contrast(1.4)' },
-                { name: 'Tony', filter: 'sepia(1) contrast(1.3) brightness(1.1)' }
-            ]
-        },
-{
-    name: 'Instage',
-    filters: [
-        { name: 'Borg', filter: 'sepia(0.8) hue-rotate(10deg)' },
-        { name: 'Carl', filter: 'sepia(0.8) hue-rotate(20deg)' },
-        { name: 'Coco', filter: 'sepia(0.8) hue-rotate(30deg)' },
-        { name: 'Doris', filter: 'sepia(0.8) hue-rotate(40deg)' },
-        { name: 'Doug', filter: 'sepia(0.8) hue-rotate(50deg)' },
-        { name: 'Earl', filter: 'sepia(0.8) hue-rotate(60deg)' },
-        { name: 'Sun', filter: 'sepia(0.8) hue-rotate(70deg)' },
-        { name: 'Blues', filter: 'sepia(0.8) hue-rotate(80deg)' },
-        { name: 'Country', filter: 'sepia(0.8) hue-rotate(90deg)' },
-        { name: 'Lemonpeli', filter: 'sepia(0.8) hue-rotate(100deg)' },
-        { name: 'Tiny DC', filter: 'sepia(0.8) hue-rotate(110deg)' },
-        { name: 'Minker', filter: 'sepia(0.8) hue-rotate(120deg)' }
-    ]
-}
-,
-{
-        name: 'Retro',
-        filters: [
-            { name: 'Vib', filter: 'contrast(1.4) saturate(1.3)' },
-            { name: 'Ranguit', filter: 'contrast(1.5) saturate(1.2)' },
-            { name: 'Rangeen', filter: 'contrast(1.6) saturate(1.1)' },
-            { name: 'Creamlow', filter: 'contrast(1.2) brightness(1.1)' },
-            { name: 'Sven', filter: 'contrast(1.3) brightness(1.2)' },
-            { name: 'Yenely', filter: 'contrast(1.4) brightness(1.3)' },
-            { name: 'Ragwarm', filter: 'contrast(1.5) brightness(1.4)' },
-            { name: 'Greered', filter: 'contrast(1.6) brightness(1.5)' },
-            { name: 'Danlighter', filter: 'contrast(1.2) brightness(1.6)' },
-            { name: 'Garage', filter: 'contrast(1.3) brightness(1.7)' }
-        ]
-    },{
-    name: 'Tuning',
-    filters: [
-        { name: 'Punch', filter: 'contrast(1.5) saturate(1.2)' },
-        { name: 'Bright', filter: 'brightness(1.5)' },
-        { name: 'Contrast', filter: 'contrast(2)' },
-        { name: 'Vivid', filter: 'saturate(2)' },
-        { name: 'Clairify', filter: 'contrast(1.2) brightness(1.2) saturate(1.2)' }
-    ]
-}
-,{
-    name: 'Portrait',
-    filters: [
-        { name: 'Matte', filter: 'brightness(0.9) contrast(1.1) sepia(0.2)' },
-        { name: 'Deep', filter: 'contrast(1.5) saturate(1.2)' },
-        { name: 'Film', filter: 'sepia(0.3) contrast(1.2)' },
-        { name: 'Sunny', filter: 'brightness(1.2) contrast(1.1) saturate(1.1)' },
-        { name: 'Gritty', filter: 'contrast(2) brightness(0.8)' }
-    ]
-}
-,{
-    name: 'Food',
-    filters: [
-        { name: 'Berry', filter: 'saturate(1.5) contrast(1.2)' },
-        { name: 'Ensalat', filter: 'brightness(1.1) contrast(1.1) saturate(1.2)' },
-        { name: 'Morning', filter: 'brightness(1.2) contrast(1.2) sepia(0.1)' },
-        { name: 'Corn', filter: 'saturate(1.3) brightness(1.1)' },
-        { name: 'Sharp', filter: 'contrast(1.5) saturate(1.1)' }
-    ]
-}
-,{
-    name: 'Nature',
-    filters: [
-        { name: 'Beach', filter: 'brightness(1.1) saturate(1.2) contrast(1.1)' },
-        { name: 'Flower', filter: 'saturate(1.5) brightness(1.2)' },
-        { name: 'Forest', filter: 'contrast(1.3) saturate(1.3) brightness(1.1)' }
-    ]
-}
-,{
-    name: 'Colors',
-    filters: [
-        { name: 'Strawberry', filter: 'contrast(1.2) brightness(1.1) saturate(1.3)' },
-        { name: 'Clementine', filter: 'brightness(1.1) hue-rotate(10deg) saturate(1.2)' },
-        { name: 'Pear', filter: 'brightness(1.2) contrast(1.1) saturate(1.2)' },
-        { name: 'Apple', filter: 'contrast(1.2) hue-rotate(5deg) brightness(1.1)' },
-        { name: 'Blueberry', filter: 'contrast(1.3) hue-rotate(200deg) brightness(1.1)' },
-        { name: 'Grapes', filter: 'contrast(1.3) hue-rotate(250deg) saturate(1.3)' },
-        { name: 'Dragon', filter: 'contrast(1.4) brightness(1.1) saturate(1.2)' },
-        { name: 'Superone', filter: 'contrast(1.5) saturate(1.4) brightness(1.2)' },
-        { name: 'Tonola', filter: 'contrast(1.1) hue-rotate(50deg) brightness(1.1)' },
-        { name: 'Reddish', filter: 'contrast(1.3) brightness(1.2) saturate(1.3)' },
-        { name: 'Fellowing', filter: 'contrast(1.2) brightness(1.1) saturate(1.2)' },
-        { name: 'Grasslands', filter: 'contrast(1.3) brightness(1.2) saturate(1.3)' },
-        { name: 'Spring', filter: 'contrast(1.1) hue-rotate(30deg) brightness(1.1)' },
-        { name: 'Justblues', filter: 'contrast(1.3) hue-rotate(210deg) saturate(1.2)' },
-        { name: 'Bluesteel', filter: 'contrast(1.4) hue-rotate(220deg) saturate(1.3)' },
-        { name: 'Flowerpot', filter: 'contrast(1.3) hue-rotate(15deg) saturate(1.2)' },
-        { name: 'Stinker', filter: 'contrast(1.2) brightness(1.1) saturate(1.2)' },
-        { name: 'Beyllo', filter: 'contrast(1.3) brightness(1.1) saturate(1.3)' }
-    ]
-}
-,{
-    name: 'Artzy',
-    filters: [
-        { name: 'Poster', filter: 'contrast(2) saturate(2) brightness(0.8)' },
-        { name: 'Glitch', filter: 'hue-rotate(180deg) contrast(1.5)' },
-        { name: 'Mozak', filter: 'sepia(1) contrast(1.2) brightness(1.1)' },
-        { name: 'Frank', filter: 'grayscale(1) contrast(1.3)' },
-        { name: 'Pinvet', filter: 'contrast(1.5) brightness(1.2) sepia(0.8)' },
-        { name: 'Night Vision', filter: 'invert(1) brightness(1.3)' },
-        { name: 'Darksheet', filter: 'brightness(0.5) contrast(1.3)' },
-        { name: 'Blomberg', filter: 'contrast(1.2) saturate(1.5) hue-rotate(60deg)' },
-        { name: 'Lolita', filter: 'contrast(1.1) sepia(0.6) brightness(1.1)' },
-        { name: 'Atonic', filter: 'contrast(1.4) brightness(1.2) saturate(1.3)' }
-    ]
-}
-
-    ];
-function createFilterCategories() {
-        filtersContainer.innerHTML = '';
-        filtersContainer.dataset.view = 'categories'; // Set the initial view to 'categories'
-
-        filterCategories.forEach(category => {
-            const categoryElement = document.createElement('div');
-            categoryElement.className = 'filter-category';
-            categoryElement.textContent = category.name;
-
-            categoryElement.addEventListener('click', () => {
-                showSubcategories(category.name, category.filters);
-                filtersContainer.dataset.view = 'subcategories'; // Set the data attribute to 'subcategories'
-            });
-
-            filtersContainer.appendChild(categoryElement);
-        });
-    }
-function showSubcategories(categoryName, filters) {
-        filtersContainer.innerHTML = '';
-        filtersContainer.dataset.category = categoryName; // Store the current category name
-
-        filters.forEach(f => {
-            const filterPreview = document.createElement('div');
-            filterPreview.className = 'filter-preview';
-
-            const filterImage = document.createElement('img');
-            filterImage.src = originalData;
-            filterImage.style.filter = f.filter;
-            filterPreview.appendChild(filterImage);
-
-            // Add filter name as a label
-            const filterLabel = document.createElement('div');
-            filterLabel.textContent = f.name;
-            filterLabel.style.textAlign = 'center';
-            filterLabel.style.color = 'white';
-            filterPreview.appendChild(filterLabel);
-
-            filterPreview.addEventListener('click', () => {
-                applyFilter(f.filter);
-                document.querySelectorAll('.filter-preview').forEach(fp => fp.classList.remove('selected'));
-                filterPreview.classList.add('selected');
-            });
-
-            filtersContainer.appendChild(filterPreview);
-        });
-const backButton = document.createElement('button');
-        backButton.className = 'back-button';
-        backButton.textContent = 'Back';
-        backButton.addEventListener('click', createFilterCategories);
-        filtersContainer.appendChild(backButton);
-    }
-function applyFilter(filter) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.filter = filter;
-    context.drawImage(image, 0, 0);
-    
-        const download = document.getElementById('download');
-download.href = canvas.toDataURL(); 
-}
-createFilterCategories();
-
-
-  
-    
-
-// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById('share-button');
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName('close1')[0];
-
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-    modal.style.display = 'block';
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = 'none';
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = 'none';
-    }
-}
-
-
-</script>
-</main>
