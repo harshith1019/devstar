@@ -1,16 +1,35 @@
+
+
+
 <script>
-	import Crop from './_components/Crop.svelte';
+	import { goto } from '$app/navigation';
 	import Filter from './_components/Filter.svelte';
-	import ImagePreview from './_components/ImagePreview.svelte';
-    let currentFeature = '';
-	let imageUrl = '';
-	let image = "https://picsum.photos/200"
-    function showFeature(feature) {
-		currentFeature = feature;
+
+
+
+
+	let currentFeature = '';
+
+  function showFeature(feature) {
+    currentFeature = feature;
+  }
+
+  function uploadImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+      imageUrl = URL.createObjectURL(file);
+      currentFeature = 'image-preview';
     }
-	function uploadImage(){
-		imageUrl = '';
-	}
+  }
+
+  function goToFilterPage() {
+    goto('/apply-filter'); // Adjust the path as per your project structure
+  }
+
+	
+
+
+
 </script>
 
 <div class="container flex justify-between">
@@ -28,7 +47,6 @@
 
 <div class="card gap-16 items-center mx-auto max-w-screen-xl lg:flex overflow-hidden rounded-lg">
 	<!-- Add tool here -->
-     
 	<div class="flex lg:flex-col w-full p-4 border-b border-gray-300 basis-1 md:flex-row md:justify-around">
         <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('crop')}>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-crop" viewBox="0 0 16 16">
@@ -40,11 +58,11 @@
 				<path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 0 1 0 3m0-3a1.5 1.5 0 0 0 0 3m0 9.75V10.5" />
 			  </svg>Finetune
 		</button>
-        <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('filter')}>
+        <a href="/apply-filter" id="apply-filter"><button on:click={goToFilterPage} class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" >
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
 			  </svg>Filter
-		</button>
+		</button></a>
         <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('annotate')}>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
 				<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
@@ -57,21 +75,17 @@
 			  </svg>Stickers
 		</button>
     </div>
-    <div class="flex justify-center items-center flex-grow w-full bg-gray-200 rounded-lg">
-        {#if currentFeature === 'crop'}
-            <Crop image={image} />
-		{:else if currentFeature === 'filter'}
-			<Filter image={image} />
-		{:else if currentFeature === 'choose-random'}
-			<div>
-				"gvg"
-			</div>
-		{:else if currentFeature === 'upload-pic'}
-			<ImagePreview imageUrl=''/>
-		{:else}
-			<ImagePreview bind:imageUrl={imageUrl} />
-        {/if}
+	<form id="post-form" class="container1 mx-auto p-5" method="POST" enctype="multipart/form-data">
+
+		<label for="image" class="sr-only">Upload an image</label>
+		<input type="file" accept="image/png, image/jpg, image/jpeg" name="image" id="image" class="text-white"required>
+	</form>
+
+	<div class="container">
+		<canvas class="canvas-container"></canvas>
 	</div>
+
+
 	<div class="flex lg:flex-col w-full p-4 border-gray-300 basis-1 md:flex-row md:justify-around">
         <button class="flex flex-col justify-center items-center border rounded-lg text-white bg-slate-400 dark:bg-inherit dark:text-white p-2 cursor-pointer mb-2 hover:scale-110" on:click={() => showFeature('fill')}>
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paint-bucket" viewBox="0 0 16 16">
@@ -102,6 +116,91 @@
     </div>
 </div>
 
+<main>
+	<script>
+		const applyFilterButton = document.getElementById('apply-filter');
+
+		  const canvas = document.querySelector('canvas'); 
+        const context = canvas.getContext('2d'); 
+
+        const input = document.getElementById('image');
+
+
+		let imageWidth = null; 
+        let imageHeight = null; 
+        let originalData = null; 
+
+        const image = new Image(); 
+        image.addEventListener('load', () => {
+            imageWidth = image.width; 
+            imageHeight = image.height; 
+            canvas.width = imageWidth; 
+            canvas.height = imageHeight; 
+            context.drawImage(image, 0, 0); 
+        });
+
+        const reader = new FileReader(); 
+        reader.addEventListener('load', () => {
+            image.src = reader.result; 
+            originalData = reader.result;
+        });
+
+        input.addEventListener('change', () => {
+            reader.readAsDataURL(input.files[0]);
+        });
+
+		
+
+        applyFilterButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            if (!originalData) {
+                return alert("Please upload an image first!");
+            }
+
+            // Save the image data to local storage
+            localStorage.setItem('imageData', originalData);
+
+            // Navigate to the page.svelte
+            window.location.href = '/apply-filter';
+           
+        });
+
+	</script>
+
+	
+</main>
 <style>
+
+	
+   .canvas-container {
+        width: 100%;
+        max-width: 500px; /* Adjust as needed */
+        border: 1px solid #ddd;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    canvas {
+        width: 100%;
+        height: auto;
+    }
+
+
+  canvas {
+    width: 100%; 
+    height: auto; 
+    background-color: #374A67; 
+    margin-bottom: 1em; 
+    box-shadow: var(--shadow);
+}
+
+.container {
+    margin-bottom: 1em; 
+}
+
+
 
 </style>
