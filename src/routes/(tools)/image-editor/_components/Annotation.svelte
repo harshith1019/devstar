@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { saveAs } from 'file-saver'; // Make sure you have installed file-saver: npm install file-saver
+    //import { saveAs } from 'file-saver'; // Make sure you have installed file-saver: npm install file-saver
     export let image;
     let annotations = []; // For storing all annotations
     let activeTool = 'drawLow'; // Default tool
