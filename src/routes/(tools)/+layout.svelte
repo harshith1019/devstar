@@ -17,7 +17,7 @@
       <div>
         <h2 class="mb-4 text-2xl font-extrabold tracking-tight leading-none text-gray-900 dark:text-white">Details</h2>
         <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
-          {data.meta.description}
+          {data.meta.description} a tool that enables users to modify and enhance digital images through various editing features and filters.
         </p>
       </div>
 
